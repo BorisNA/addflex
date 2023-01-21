@@ -16,9 +16,11 @@ Since the `pyglossary` can not add inflections to a dictionary from a standalone
 ### HOWTO
 
 1. Convert a dictionary to the Kobo dictfile (.df) format.
+
    `pyglossary test.dsl test.df`
 
 2. Add infections to the converted dictionary with the provided script **add_flex.py**. 
+
    `python add_flex.py -i test.df -o test_out.df -t forms-UK-test.txt`
 
 3. Convert the resulting dictionary with inflections to the Stardict. Do not use `merge_syns` `pyglossary`'s option or the dictionary card title will be changed from the stem to the infected variant.
