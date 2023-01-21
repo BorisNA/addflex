@@ -6,7 +6,7 @@ A simple way to add inflection forms to the StarDict dictionary (to use in KOrea
 
 1. A dictionary in a parseable format, for example StarDict, DSL, XDXF etc (see notes on DSL below!)
 2. Inflection forms file (for example from https://github.com/BorisNA/dsl2mobi/tree/master/wordforms)
-3. A tool to convert the dictionary to the Kobo dictfile .df format and .df to the StarDict forma (for example https://github.com/ilius/pyglossary)
+3. A tool to convert the dictionary to the Kobo dictfile (.df) format and .df to the StarDict format (for example https://github.com/ilius/pyglossary)
 4. Python ~~to rule them all~~ to run this script
 
 ## Adding inflections to the StarDict format
@@ -15,7 +15,7 @@ Since the `pyglossary` can not add inflections to a dictionary from a standalone
 
 ### HOWTO
 
-1. Convert a dictionary to the StarDict format.
+1. Convert a dictionary to the Kobo dictfile (.df) format.
    `pyglossary test.dsl test.df`
 
 2. Add infections to the converted dictionary with the provided script **add_flex.py**. 
