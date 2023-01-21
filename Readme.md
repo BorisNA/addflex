@@ -4,7 +4,7 @@ A simple way to add inflection forms to the StarDict dictionary (to use in KOrea
 
 ## Prerequisites
 
-1. A dictionary in a parseable format, for example StarDict, DSL, XDXF etc
+1. A dictionary in a parseable format, for example StarDict, DSL, XDXF etc (see notes on DSL below!)
 2. Inflection forms file (for example from https://github.com/BorisNA/dsl2mobi/tree/master/wordforms)
 3. A tool to convert the dictionary to the Kobo dictfile .df format and .df to the StarDict forma (for example https://github.com/ilius/pyglossary)
 4. Python ~~to rule them all~~ to run this script
@@ -13,7 +13,7 @@ A simple way to add inflection forms to the StarDict dictionary (to use in KOrea
 
 Since the `pyglossary` can not add inflections to a dictionary from a standalone file we need to convert the dictionary to a intermediate file that can be read/written by `pyglossary` *and* is easy to manipulate from the script.
 
-HOWTO
+### HOWTO
 
 1. Convert a dictionary to the StarDict format.
    `pyglossary test.dsl test.df`
@@ -25,6 +25,16 @@ HOWTO
 
    `pyglossary test_out.df test_out.ifo --read-format=Dictfile --write-format=Stardict ''"'"'--json-write-options={"dictzip": true, "sametypesequence": "h", "merge_syns": false}'"'"'' `
    
+
+## Notes on converting DSL dictionaries
+
+DSL dictionaries often contain stress marks not only in the card body, but in the dictionary entry title (that is the index word) itself. Pyglossary, unfortunately, can not remove these stress marks and just adds them to the resulting file. And when converted to the StarDict format, StarDict engine is not able to match a word with its "stressed" definition.
+
+Possible solution is to clear all stress marks in the source DSL file in text editor with the following regexp pattern.
+
+```
+\{\[/?'\]\}
+```
 
 ## Inflection file format
 
