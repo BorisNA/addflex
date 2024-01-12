@@ -18,8 +18,7 @@ stem2: infected21, inflected22, inflected23, ...
 
 ```
 
-You can generate this file from hunspell or use any from https://github.com/BorisNA/dsl2mobi/tree/master/wordforms
-
+Wordforms files for selected languages are available at https://github.com/BorisNA/wordforms
 
 ## addflex_df
 
@@ -28,7 +27,7 @@ A simple way to add inflection forms to the StarDict dictionary (to use in KOrea
 ### Prerequisites
 
 1. A dictionary in a parseable format, for example StarDict, DSL, XDXF etc (see notes on DSL below!)
-2. Inflection forms file (for example from https://github.com/BorisNA/dsl2mobi/tree/master/wordforms)
+2. Inflection forms file (see [Wordform file](#source-inflection-file-format))
 3. A tool to convert the dictionary to the Kobo dictfile (.df) format and .df to the StarDict format (for example https://github.com/ilius/pyglossary)
 4. Python ~~to rule them all~~ to run this script
 
