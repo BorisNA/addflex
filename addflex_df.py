@@ -1,5 +1,39 @@
 import sys
 import argparse
+from typing import TextIO, Dict, Set
+
+
+def read_wordforms_as_list( infile: TextIO ) -> Dict[ str, Set ]|None:
+    is_error = False
+    infl_dict = {}
+    for line in infile:
+        line = line.rstrip()
+        spl = line.split(":")
+        if len(spl) != 2:
+            err = f'Wordform error at: "{line}"'
+            if 'logging' in sys.modules:
+                logging.error( err )
+            else:
+                print( err, file=sys.stderr )
+            is_error = True
+            continue
+
+        stem, flex = spl
+        stem = stem.strip()
+        flex_line = flex.split(",")
+        flex_line = (f.strip() for f in flex_line)
+        flex_line = [f for f in flex_line if f != stem and f != '']
+        if len(flex_line) > 0:
+            # do not add empty sets
+            if not infl_dict.get(stem):
+                infl_dict[stem] = set()
+            infl_dict[stem].update(flex_line)
+
+    if is_error:
+        infl_dict = None
+
+    return infl_dict
+
 
 parser = argparse.ArgumentParser(
        description='Add flections from a table to the Kobo dictionary file (.df)',
@@ -28,28 +62,20 @@ inflDict = {}
 
 print( f'Parsing inflections from "{flexFile}"' ) 
 with open( flexFile, encoding='utf8' ) as inflF:
-    for line in inflF:
-        try:
-            base, flex = line.split(":")
-            base = base.strip()
-        except ValueError:
-            print( line )
-            exit
-        flexL = flex.split(",")
-        flexL = ( f.strip() for f in flexL )
-        flexL = [ f for f in flexL if f != base ]
-        inflDict[ base ] = flexL
+    inflDict = read_wordforms_as_list( inflF )
 
-print( f'Parsing dictionary file "{dictFile}" -> "{dictOut}"' )
-with open( dictFile, encoding='utf8' ) as dictF, \
-     open( dictOut, "w", encoding='utf8' ) as outF:
-    for line in dictF:
-        line = line.strip()
-        if line.startswith( '@' ):
-            print( line, file = outF )
-            word = line[2:].strip()
-            for form in inflDict.get( word, {} ):
-                print( f'& {form}', file = outF )
-        else:
-            print( line, file = outF )
-
+if inflDict:
+    print( f'Parsing dictionary file "{dictFile}" -> "{dictOut}"' )
+    with open( dictFile, encoding='utf8' ) as dictF, \
+         open( dictOut, "w", encoding='utf8' ) as outF:
+        for line in dictF:
+            line = line.strip()
+            if line.startswith( '@' ):
+                print( line, file = outF )
+                word = line[2:].strip()
+                for form in inflDict.get( word, {} ):
+                    print( f'& {form}', file = outF )
+            else:
+                print( line, file = outF )
+else:
+    print("Input wordlist is empty - check wordlist format", file=sys.stdout)
