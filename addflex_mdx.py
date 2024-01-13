@@ -48,6 +48,9 @@ parser.add_argument('-o', '--output', dest='dictOut', metavar='FILENAME', requir
 parser.add_argument('-t', '--table', dest='flexFile', metavar='FILENAME', required=True,
                     action='store', 
                     help='flexion file (format "stem: form, form, form...")')
+parser.add_argument('-l', '--link', dest='is_link',
+                    action='store_true', default=False,
+                    help='generate @@@LINKS instead of cards with ref')
 
 args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
@@ -66,6 +69,9 @@ if inflDict:
         for stem in inflDict:
             flexes = sorted(list(inflDict[stem]))
             for flex in flexes:
-                print( f'{flex}\n@@@LINK={stem}\n\n</>', file=outF )
+                if args.is_link:
+                    print( f'{flex}\n@@@LINK={stem}\n\n</>', file=outF )
+                else:
+                    print(f'{flex}\n{flex} ⇒ <a href="entry://{stem}">{stem}</a>\n\n</>', file=outF)
 else:
     print("Input wordlist is empty - check wordlist format", file=sys.stdout)

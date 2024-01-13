@@ -63,14 +63,33 @@ Possible solution is to clear all stress marks in the source DSL file in text ed
 
 ## addflex_mdx
 
+There are two options to generate morphological data for MDX
+
+1. Create links for the dictionary, then if one searches for wordform, the card with the stem is automatically opened.
+It is convenient, but the downside is that you need to regenerate every dictionary adding this "morphological delta"
+2. Create a standalone dictionary, where for each wordform there is a card with the link to the stem. Downside is that
+one need to click again on this link to get to the needed entry.
+
+### Create a "morphological addon" with links
+
 1. Create an inflection file for the desired language
 
-   `python addflex_mdx.py -t forms-UK-test.txt -o test_MDX_infl.txt`
+   `python addflex_mdx.py -l -t forms-UK-test.txt -o test_MDX_infl.txt`
 
 2. Concatenate this file with your source MDX file
 
    For example with `copy some_MDX_file.txt+test_MDX_infl.txt some_MDX_file_with_infl.txt`
 
-3. Convert the concatenated file to MDX
+3. Convert the concatenated file to every MDX needed
 
    For example with `mdict -a some_MDX_file_with_infl.txt some_MDX_file_with_infl.mdx`
+
+### Create a standalone dictionary
+
+1. Create a standalone inflection file for the desired language
+
+   `python addflex_mdx.py -t forms-UK-test.txt -o test_MDX_infl_UK.txt`
+
+2. Generate a "morphological dictionary" as usual
+
+   For example with `mdict -a test_MDX_infl_UK.txt morphological_UK.mdx`
