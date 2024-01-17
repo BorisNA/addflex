@@ -73,5 +73,6 @@ if inflDict:
                     print( f'{flex}\n@@@LINK={stem}\n\n</>', file=outF )
                 else:
                     print(f'{flex}\n{flex} ⇒ <a href="entry://{stem}">{stem}</a>\n\n</>', file=outF)
+    print( f'Dictionary is created successfully' )
 else:
-    print("Input wordlist is empty - check wordlist format", file=sys.stdout)
+    print("ERROR: Input wordlist is empty - check wordlist format", file=sys.stdout)

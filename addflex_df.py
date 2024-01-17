@@ -77,5 +77,6 @@ if inflDict:
                     print( f'& {form}', file = outF )
             else:
                 print( line, file = outF )
+    print( f'Dictionary is created successfully' )
 else:
     print("Input wordlist is empty - check wordlist format", file=sys.stdout)
